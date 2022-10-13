@@ -8,24 +8,19 @@ const setHeaderCors = (request, response) => {
   response.setHeader("Access-Control-Allow-Methods", "OPTIONS", "GET");
   response.setHeader("Access-Control-Allow-Headers", "*");
   if (request.method == "OPTIONS") {
-    response.writeHead(200);
+    response.writeHead(215);
     response.end();
     return true;
   }
   return false;
 };
 
-// const users = [
-//   { id: 1, name: "Bob" },
-//   { id: 2, name: "Mike" },
-// ];
-
 http
-  .createServer((request, response) => {
+  .createServer(async (request, response) => {
     if (setHeaderCors(request, response)) return;
     switch (request.url) {
       case "/users":
-        usersController(request, response);
+        await usersController(request, response);
         break;
       case "/tasks":
         response.write("TASKS");
